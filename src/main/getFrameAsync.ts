@@ -1,4 +1,5 @@
 const { DesktopDuplication } = require('windows-desktop-duplication');
+import { writeFileSync } from 'fs';
 import { PNG } from 'pngjs';
 
 /**
@@ -24,7 +25,7 @@ function toneMapChannel(c: number, exposure: number): number {
     return Math.round(mapped * 255);
 }
 
-function writePNG(floatBuf: Float32Array, width: number, height: number): Buffer {
+function getPNG(floatBuf: Float32Array, width: number, height: number): Buffer {
     const png = new PNG({ width, height, colorType: 6, bitDepth: 8 });
     const exposure = 0.33; // как в GIMP при 40% прозрачности
 
@@ -41,9 +42,9 @@ function writePNG(floatBuf: Float32Array, width: number, height: number): Buffer
     }
 
     const buffer = PNG.sync.write(png);
+    writeFileSync("test1234.png", buffer);
+
     return buffer;
-    // fs.writeFileSync(outPath, buffer);
-    // console.log(`Saved ${outPath}`);
 }
 
 export function getFrame(): Promise<Buffer> {
@@ -63,9 +64,7 @@ export function getFrame(): Promise<Buffer> {
                     frame.data.byteOffset,
                     frame.width * frame.height * 4
                 );
-                // writeHDR(floatBuf, frame.width, frame.height, "frame.hdr");
-
-                resolve(writePNG(floatBuf, frame.width, frame.height));
+                resolve(getPNG(floatBuf, frame.width, frame.height));
             })
         } catch (err: any) {
             console.log("An error occured:", err.message);

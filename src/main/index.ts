@@ -2,8 +2,10 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-const { DesktopDuplication } = require('windows-desktop-duplication');
-// const { DesktopDuplication } = require('@node-win-desktop-duplication/index');
+import { DesktopDuplication } from 'windows-desktop-duplication';
+import { getFrame } from './getFrameAsync';
+
+// const { DesktopDuplication } = require('node-win-desktop-duplication');
 
 function createWindow(): void {
   // Create the browser window.
@@ -75,17 +77,18 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.handle('createScreenshot', () => {
-  const dd = new DesktopDuplication(0); // register for screen 0
+ipcMain.handle('createScreenshot', async () => {
+  // const dd = new DesktopDuplication(0); // register for screen 0
 
-  let frame: any;
+  // let frame: any;
 
-  try {
-    dd.initialize();
-    frame = dd.getFrame();
-    console.log(frame);
-  } catch (err: any) {
-    console.log('An error occured:', err.message)
-    process.exit(0);
-  }
+  // try {
+  //   dd.initialize();
+  //   frame = dd.getFrame();
+  //   console.log(frame.data.length);
+  // } catch (err: any) {
+  //   console.log('An error occured:', err.message)
+  //   process.exit(0);
+  // }
+  return await getFrame();
 })
