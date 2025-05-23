@@ -1,0 +1,4 @@
+singleQuote: true
+semi: "always"
+printWidth: 100
+trailingComma: none
