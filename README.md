@@ -1,5 +1,9 @@
 # trueshot
 
+App for create screenshot on hdr monitor and save to sdr format. Becuse microsoft can't take convert hdr to sdr in snipping tool, and even their color corrector doesn't work properly.
+
+I use Desktop Duplication API from https://github.com/jangxx/node-win-desktop-duplication. For get frame data.
+
 An Electron application with React and TypeScript
 
 ## Recommended IDE Setup
